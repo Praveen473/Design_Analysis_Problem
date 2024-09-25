@@ -1,53 +1,53 @@
 #include <stdio.h>
 
 int main() {
-    int s;
-    int a[100], n, ans1, ans2, ksmall, klarge;
+    int rank;
+    int array[100], numElements, kthSmallest, kthLargest, kthSmallestValue, kthLargestValue;
     
     // Reading input values
-    printf("Enter N: ");
-    scanf("%d", &n);
-    printf("Enter ksmall: ");
-    scanf("%d", &ksmall);
-    printf("Enter klarge: ");
-    scanf("%d", &klarge);
+    printf("Enter the number of elements (N): ");
+    scanf("%d", &numElements);
+    printf("Enter k for the k-th smallest element: ");
+    scanf("%d", &kthSmallest);
+    printf("Enter k for the k-th largest element: ");
+    scanf("%d", &kthLargest);
     
     printf("Enter the elements: ");
-    for (int i = 0; i < n; i++) {
-        scanf("%d", &a[i]);
+    for (int i = 0; i < numElements; i++) {
+        scanf("%d", &array[i]);
     }
     
     // Finding the k-th smallest element
-    for (int i = 0; i < n; i++) {
-        s = 1;
-        for (int j = 0; j < n; j++) {
-            if (a[i] > a[j]) {
-                s++;
+    for (int i = 0; i < numElements; i++) {
+        rank = 1;
+        for (int j = 0; j < numElements; j++) {
+            if (array[i] > array[j]) {
+                rank++;
             }
         }
-        if (ksmall == s) {
-            ans1 = a[i];
+        if (kthSmallest == rank) {
+            kthSmallestValue = array[i];
             break;
         }
     }
     
     // Finding the k-th largest element
-    for (int i = 0; i < n; i++) {
-        s = 1;
-        for (int j = 0; j < n; j++) {
-            if (a[i] < a[j]) {
-                s++;
+    for (int i = 0; i < numElements; i++) {
+        rank = 1;
+        for (int j = 0; j < numElements; j++) {
+            if (array[i] < array[j]) {
+                rank++;
             }
         }
-        if (klarge == s) {
-            ans2 = a[i];
+        if (kthLargest == rank) {
+            kthLargestValue = array[i];
             break;
         }
     }
     
     // Printing the results
-    printf("The %d-th smallest element is %d\n", ksmall, ans1);
-    printf("The %d-th largest element is %d\n", klarge, ans2);
+    printf("The %d-th smallest element is %d\n", kthSmallest, kthSmallestValue);
+    printf("The %d-th largest element is %d\n", kthLargest, kthLargestValue);
 
     return 0;
 }

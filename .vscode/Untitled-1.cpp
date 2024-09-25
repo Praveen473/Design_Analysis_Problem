@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+// Define the Job structure
 typedef struct {
-    char id;        
-    int deadline;   
-    int profit;     
+    int id;        // Job ID
+    int deadline;  // Job deadline
+    int profit;    // Job profit
 } Job;
 
 // Comparison function for qsort, to sort jobs by profit in decreasing order
@@ -30,10 +31,14 @@ int findMaxDeadline(Job jobs[], int n) {
 void jobSequencing(Job jobs[], int n) {
     // Sort jobs by profit in decreasing order
     qsort(jobs, n, sizeof(Job), compare);
-   
+
+    // Find the maximum deadline to determine the size of the result array
     int maxDeadline = findMaxDeadline(jobs, n);
 
+    // Create an array to store the result of job sequencing
+    // Initialize all slots to -1 indicating that they are free
     int result[maxDeadline];
+    bool slot[maxDeadline];
 
     for (int i = 0; i < maxDeadline; i++) {
         result[i] = -1;
@@ -44,8 +49,9 @@ void jobSequencing(Job jobs[], int n) {
         // Find a free slot for this job (we start from the last possible slot)
         for (int j = jobs[i].deadline - 1; j >= 0; j--) {
             // Free slot found
-            if (result[j] == -1) {
+            if (result[j]==-1) {
                 result[j] = i;  // Assign job i to this slot
+                //slot[j] = true; // Mark this slot as occupied
                 break;
             }
         }
@@ -54,24 +60,25 @@ void jobSequencing(Job jobs[], int n) {
     // Print the result
     printf("Scheduled jobs for maximum profit:\n");
     for (int i = 0; i < maxDeadline; i++) {
-        if (result[i] != -1) {
-            printf("Job ID: %c, Deadline: %d, Profit: %d\n",
+        if (result[i]!=-1) {
+            printf("Job ID: %d, Deadline: %d, Profit: %d\n",
                    jobs[result[i]].id, jobs[result[i]].deadline, jobs[result[i]].profit);
         }
     }
 }
 
 int main() {
-    int n;
+    // Example jobs
+    Job jobs[] = {
+        {1, 2, 100},
+        {2, 1, 19},
+        {3, 2, 27},
+        {4, 1, 25},
+        {5, 3, 15}
+    };
 
-    printf("Enter the number of jobs: ");
-    scanf("%d", &n);
+    int n = sizeof(jobs) / sizeof(jobs[0]);
 
-    Job jobs[n];
-    for (int i = 0; i < n; i++) {
-        printf("Enter job ID, deadline, and profit for job %d: ", i + 1);
-        scanf(" %c %d %d", &jobs[i].id, &jobs[i].deadline, &jobs[i].profit); 
-    }
     jobSequencing(jobs, n);
 
     return 0;
